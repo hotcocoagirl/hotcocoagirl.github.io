@@ -1,0 +1,49 @@
+---
+const tags = ['Nutrition', 'Happiness', 'Love', 'Economics', 'Morality', 'God', 'Philosophy', 'Art', 'Beauty', 'Fashion', 'Building', 'Wellness'] as const;
+
+const tagColors: Record<(typeof tags)[number], string> = {
+  Nutrition: 'bg-emerald-200/80 text-emerald-950', Happiness: 'bg-amber-200/85 text-amber-950',
+  Love: 'bg-rose-200/85 text-rose-950', Economics: 'bg-sky-200/85 text-sky-950',
+  Morality: 'bg-violet-200/85 text-violet-950', God: 'bg-yellow-100/90 text-yellow-950',
+  Philosophy: 'bg-indigo-200/85 text-indigo-950', Art: 'bg-fuchsia-200/85 text-fuchsia-950',
+  Beauty: 'bg-pink-200/85 text-pink-950', Fashion: 'bg-orange-200/85 text-orange-950',
+  Building: 'bg-cyan-200/85 text-cyan-950', Wellness: 'bg-teal-200/85 text-teal-950',
+};
+---
+
+<div id="tag-filter" class="glass sticky top-3 z-10 rounded-2xl border border-white/15 p-3 shadow-2xl shadow-slate-950/30">
+  <div class="flex flex-wrap gap-2" aria-label="Filter writing by topic">
+    <button class="tag-toggle tag-pill is-active rounded-full bg-white/90 px-3 py-1.5 text-xs font-medium text-slate-950" type="button" data-tag="All" aria-pressed="true">All</button>
+    {tags.map((tag) => <button class={`tag-toggle tag-pill rounded-full px-3 py-1.5 text-xs font-medium ${tagColors[tag]}`} type="button" data-tag={tag} aria-pressed="false">{tag}</button>)}
+  </div>
+</div>
+
+<script>
+  const controlBar = document.querySelector<HTMLElement>('#tag-filter');
+  const entries = Array.from(document.querySelectorAll<HTMLElement>('[data-article-tags]'));
+  const activeTags = new Set<string>();
+
+  function refresh() {
+    entries.forEach((entry) => {
+      const entryTags = (entry.dataset.articleTags ?? '').split('|');
+      const matches = activeTags.size === 0 || [...activeTags].some((tag) => entryTags.includes(tag));
+      entry.classList.toggle('is-filtered-out', !matches);
+    });
+  }
+
+  controlBar?.addEventListener('click', (event) => {
+    const target = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-tag]');
+    if (!target) return;
+    const tag = target.dataset.tag!;
+    if (tag === 'All') activeTags.clear();
+    else if (activeTags.has(tag)) activeTags.delete(tag);
+    else activeTags.add(tag);
+
+    controlBar.querySelectorAll<HTMLButtonElement>('[data-tag]').forEach((button) => {
+      const active = button.dataset.tag === 'All' ? activeTags.size === 0 : activeTags.has(button.dataset.tag!);
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+    refresh();
+  });
+</script>

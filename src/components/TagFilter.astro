@@ -1,0 +1,19 @@
+---
+const tags = ['Nutrition', 'Happiness', 'Love', 'Economics', 'Morality', 'God', 'Philosophy', 'Art', 'Beauty', 'Fashion', 'Building', 'Wellness'] as const;
+
+const tagColors: Record<(typeof tags)[number], string> = {
+  Nutrition: 'bg-emerald-200/80 text-emerald-950', Happiness: 'bg-amber-200/85 text-amber-950',
+  Love: 'bg-rose-200/85 text-rose-950', Economics: 'bg-sky-200/85 text-sky-950',
+  Morality: 'bg-violet-200/85 text-violet-950', God: 'bg-yellow-100/90 text-yellow-950',
+  Philosophy: 'bg-indigo-200/85 text-indigo-950', Art: 'bg-fuchsia-200/85 text-fuchsia-950',
+  Beauty: 'bg-pink-200/85 text-pink-950', Fashion: 'bg-orange-200/85 text-orange-950',
+  Building: 'bg-cyan-200/85 text-cyan-950', Wellness: 'bg-teal-200/85 text-teal-950',
+};
+
+interface Props { tags: string[]; }
+const { tags: articleTags } = Astro.props;
+---
+
+<div class="mt-4 flex flex-wrap gap-2">
+  {articleTags.map((tag) => <span class={`tag-pill rounded-full px-2.5 py-1 text-[11px] font-medium ${tagColors[tag as keyof typeof tagColors]}`}>{tag}</span>)}
+</div>

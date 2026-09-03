@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  --font-zen: "Zen Maru Gothic", sans-serif;
+}
+
+html { background: #070914; }
+
+body {
+  min-width: 320px;
+  margin: 0;
+  color: #f8fafc;
+  font-family: var(--font-zen);
+  background-color: #070914;
+}
+
+::selection { background: rgb(221 214 254 / 0.75); color: #160d2b; }
+
+.cosmic-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image: linear-gradient(180deg, rgb(4 5 18 / 0.04), rgb(4 5 18 / 0.42)), url('/milkyway.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  filter: brightness(1.7) saturate(1.18) contrast(1.08);
+}
+
+.cosmic-glow {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(circle at 12% 6%, rgb(224 231 255 / 0.18), transparent 31%), radial-gradient(circle at 89% 75%, rgb(251 207 232 / 0.1), transparent 26%);
+}
+
+.glass { background: rgb(8 11 29 / 0.28); backdrop-filter: blur(8px); }
+
+.article-link:hover .article-title {
+  color: #fff;
+  text-shadow: 0 0 18px rgb(221 214 254 / 0.7), 0 0 35px rgb(251 207 232 / 0.35);
+  transform: translateY(-2px);
+}
+
+.tag-pill { border: 1px solid rgb(255 255 255 / 0.18); transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease; }
+.tag-pill:hover { transform: translateY(-1px); box-shadow: 0 5px 18px rgb(255 255 255 / 0.12); }
+.tag-toggle.is-active { box-shadow: 0 0 0 2px rgb(255 255 255 / 0.62), 0 0 22px rgb(221 214 254 / 0.46); }
+.is-filtered-out { display: none; }
+
+.article-body { color: #e2e8f0; font-size: 1rem; line-height: 1.9; }
+.article-body > * + * { margin-top: 1.5rem; }
+.article-body h2, .article-body h3 { color: #fff; font-weight: 700; line-height: 1.15; }
+.article-body h2 { font-size: 1.75rem; }
+.article-body h3 { font-size: 1.35rem; }
+.article-body a { color: #ddd6fe; text-decoration: underline; text-underline-offset: 3px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .article-title { transition: color 160ms ease, transform 160ms ease, text-shadow 160ms ease; }
+}

@@ -1,0 +1,25 @@
+<aside id="visitor-banner" class="glass hidden rounded-2xl border border-white/15 px-4 py-3 text-center text-sm text-slate-200 shadow-lg shadow-indigo-950/30" aria-live="polite"></aside>
+
+<script>
+  const banner = document.querySelector<HTMLElement>('#visitor-banner');
+
+  if (banner) {
+    const now = new Date();
+    const previousCount = Number.parseInt(localStorage.getItem('visitCount') ?? '0', 10) || 0;
+    const previousDate = localStorage.getItem('lastVisitDate');
+    const visitCount = previousCount + 1;
+    localStorage.setItem('visitCount', String(visitCount));
+    localStorage.setItem('lastVisitDate', now.toISOString());
+
+    if (!previousDate) {
+      banner.textContent = 'Welcome — I’m glad you found your way here.';
+    } else {
+      const lastDate = new Date(previousDate);
+      const daysAgo = Math.max(0, Math.floor((now.getTime() - lastDate.getTime()) / 86_400_000));
+      const lastHere = daysAgo === 0 ? 'today' : `${daysAgo} day${daysAgo === 1 ? '' : 's'} ago`;
+      banner.textContent = `You’ve visited ${visitCount} times. Last here ${lastHere}. Welcome back!`;
+    }
+
+    banner.classList.remove('hidden');
+  }
+</script>
