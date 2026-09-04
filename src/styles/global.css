@@ -20,23 +20,45 @@ body {
   position: fixed;
   inset: 0;
   z-index: 0;
-  background-image: linear-gradient(180deg, rgb(4 5 18 / 0.02), rgb(4 5 18 / 0.28)), url('/milkyway-earth.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-  filter: none;
+  opacity: 0;
+  background-position: 0 top;
+  background-repeat: repeat-x;
+  background-size: auto 240vh;
+  transition: opacity 1.2s ease;
+  animation: panorama-drift 720s linear infinite;
 }
+
+.cosmic-backdrop.is-ready { opacity: 1; }
+.cosmic-backdrop--full { z-index: 1; }
+.cosmic-backdrop--fallback { transition-duration: 700ms; }
 
 .cosmic-glow {
   position: fixed;
   inset: 0;
-  z-index: 1;
+  z-index: 2;
   pointer-events: none;
   background: radial-gradient(circle at 12% 6%, rgb(224 231 255 / 0.18), transparent 31%), radial-gradient(circle at 89% 75%, rgb(251 207 232 / 0.1), transparent 26%);
 }
 
 .glass { background: rgb(8 11 29 / 0.28); backdrop-filter: blur(8px); }
+
+.sky-credit {
+  position: fixed;
+  right: 1rem;
+  bottom: 0.75rem;
+  z-index: 20;
+  color: rgb(226 232 240 / 0.72);
+  font-size: 0.625rem;
+  text-decoration: none;
+  text-shadow: 0 1px 8px rgb(0 0 0 / 0.9);
+}
+
+.sky-credit:hover { color: #fff; }
+
+@keyframes panorama-drift {
+  from { background-position-x: 0; }
+  to { background-position-x: -480vh; }
+}
 
 .article-link:hover .article-title {
   color: #fff;
@@ -58,4 +80,8 @@ body {
 
 @media (prefers-reduced-motion: no-preference) {
   .article-title { transition: color 160ms ease, transform 160ms ease, text-shadow 160ms ease; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cosmic-backdrop { animation: none; }
 }
