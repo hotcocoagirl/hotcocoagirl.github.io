@@ -17,7 +17,7 @@
 
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(72, 1, 0.1, 100);
-      camera.lookAt(0, 0.34, -1);
+      camera.lookAt(0, 0.78, -1);
 
       const texture = new THREE.Texture(image);
       texture.colorSpace = THREE.SRGBColorSpace;
@@ -29,7 +29,7 @@
         new THREE.SphereGeometry(50, 96, 64),
         new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide }),
       );
-      sky.rotation.set(THREE.MathUtils.degToRad(5), THREE.MathUtils.degToRad(206), THREE.MathUtils.degToRad(-19));
+      sky.rotation.set(0, THREE.MathUtils.degToRad(206), 0);
       scene.add(sky);
 
       const startingRotation = sky.quaternion.clone();

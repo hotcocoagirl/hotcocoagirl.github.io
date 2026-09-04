@@ -12,8 +12,8 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueO
 <BaseLayout title="hot cocoa girl — writing" description="Writing about life, beauty, philosophy, and whatever is true today.">
   <main class="mx-auto w-full max-w-5xl px-4 pb-16 pt-5 sm:px-6 lg:px-8">
     <SiteHeader>
-      <div class="mt-10 max-w-2xl">
-        <h1 class="text-4xl font-bold tracking-tight text-white sm:text-6xl">Splash around in my stream of consciousness</h1>
+      <div class="mt-10 max-w-none">
+        <h1 class="whitespace-nowrap text-[clamp(0.62rem,3vw,3rem)] font-bold leading-none tracking-tighter text-white">Splash around in my stream of consciousness</h1>
         <p class="mt-4 max-w-xl text-sm leading-7 text-slate-200 sm:text-base">I seek truth and joy.</p>
       </div>
     </SiteHeader>
