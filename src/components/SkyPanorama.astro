@@ -1,0 +1,66 @@
+<canvas id="sky-panorama" class="sky-panorama" aria-hidden="true"></canvas>
+
+<script>
+  import * as THREE from 'three';
+
+  const canvas = document.querySelector('#sky-panorama');
+
+  if (canvas instanceof HTMLCanvasElement) {
+    const image = new Image();
+    image.decoding = 'async';
+    image.src = '/milkyway-panorama.jpg';
+
+    image.decode().then(() => {
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(72, 1, 0.1, 100);
+      camera.lookAt(0, 0.34, -1);
+
+      const texture = new THREE.Texture(image);
+      texture.colorSpace = THREE.SRGBColorSpace;
+      texture.minFilter = THREE.LinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+      texture.needsUpdate = true;
+
+      const sky = new THREE.Mesh(
+        new THREE.SphereGeometry(50, 96, 64),
+        new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide }),
+      );
+      sky.rotation.set(THREE.MathUtils.degToRad(5), THREE.MathUtils.degToRad(206), THREE.MathUtils.degToRad(-19));
+      scene.add(sky);
+
+      const startingRotation = sky.quaternion.clone();
+      const risingAxis = new THREE.Vector3(1, 0.16, 0).normalize();
+      const riseSpeed = (Math.PI * 2) / (60 * 60 * 6);
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let startedAt = performance.now();
+
+      const resize = () => {
+        const { innerWidth: width, innerHeight: height } = window;
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height, false);
+      };
+
+      const render = (now: number) => {
+        if (!reduceMotion) {
+          sky.quaternion.copy(startingRotation);
+          sky.rotateOnWorldAxis(risingAxis, ((now - startedAt) / 1000) * riseSpeed);
+        }
+        renderer.render(scene, camera);
+        requestAnimationFrame(render);
+      };
+
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+      renderer.render(scene, camera);
+      requestAnimationFrame(() => canvas.classList.add('is-ready'));
+      requestAnimationFrame(render);
+    }).catch(() => {
+      // The decoded fallback remains visible if WebGL or the high-resolution image is unavailable.
+    });
+  }
+</script>

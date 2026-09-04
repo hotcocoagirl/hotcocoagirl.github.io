@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import SkyPanorama from '../components/SkyPanorama.astro';
 
 interface Props {
   title?: string;
@@ -27,7 +28,7 @@ const {
   </head>
   <body>
     <div id="cosmic-backdrop-fallback" class="cosmic-backdrop cosmic-backdrop--fallback" aria-hidden="true"></div>
-    <div id="cosmic-backdrop-full" class="cosmic-backdrop cosmic-backdrop--full" aria-hidden="true"></div>
+    <SkyPanorama />
     <div class="cosmic-glow" aria-hidden="true"></div>
     <div class="relative z-10"><slot /></div>
     <a class="sky-credit" href="https://www.eso.org/public/images/uhd-9180-panorama-eq-extended/" target="_blank" rel="noreferrer">Sky: Y. Beletsky (LCO)/ESO · CC BY 4.0</a>
@@ -50,7 +51,6 @@ const {
       };
 
       loadBackdrop('/milkyway-panorama-fallback.jpg', document.querySelector('#cosmic-backdrop-fallback'));
-      loadBackdrop('/milkyway-panorama.jpg', document.querySelector('#cosmic-backdrop-full'));
     </script>
   </body>
 </html>
