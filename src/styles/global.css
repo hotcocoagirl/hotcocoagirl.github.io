@@ -21,7 +21,7 @@ body {
   inset: 0;
   z-index: 0;
   overflow: hidden;
-  background: #030510;
+  background: #030510 url('/milky-way-poster.jpg') center / cover no-repeat;
 }
 
 .night-sky-video {
@@ -32,8 +32,12 @@ body {
   object-fit: cover;
   object-position: center 52%;
   filter: brightness(0.7) saturate(0.9);
+  opacity: 0;
   pointer-events: none;
+  transition: opacity 600ms ease;
 }
+
+.night-sky-video.is-ready { opacity: 1; }
 
 .crystal-springs-foreground {
   position: fixed;
@@ -111,6 +115,6 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .night-sky-video { display: none; }
+  .night-sky-video { display: none; transition: none; }
   .night-scene { background: #080a1b url('/milky-way-poster.jpg') center / cover no-repeat; }
 }
