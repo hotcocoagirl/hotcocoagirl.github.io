@@ -25,7 +25,7 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
-  filter: brightness(1.7) saturate(1.18) contrast(1.08);
+  filter: none;
 }
 
 .cosmic-glow {
