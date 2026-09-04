@@ -20,7 +20,7 @@ body {
   position: fixed;
   inset: 0;
   z-index: 0;
-  background-image: linear-gradient(180deg, rgb(4 5 18 / 0.04), rgb(4 5 18 / 0.42)), url('/milkyway.jpg');
+  background-image: linear-gradient(180deg, rgb(4 5 18 / 0.02), rgb(4 5 18 / 0.28)), url('/milkyway-earth.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
