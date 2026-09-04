@@ -42,19 +42,10 @@ body {
   left: 0;
   height: 24svh;
   pointer-events: none;
-  background:
-    linear-gradient(to bottom, rgb(19 29 78 / 0.44), rgb(2 5 18 / 0.7)),
-    url('/crystal-springs-reservoir.jpg') center 28% / cover no-repeat;
-  background-blend-mode: multiply;
-  filter: brightness(0.72) saturate(0.56) contrast(1.12) hue-rotate(168deg);
-  /* This is the actual reservoir ridgeline, rather than a panorama projection.
-     It exposes the independently moving rectangular sky above it. */
-  clip-path: polygon(
-    0 27.8%, 6% 26.8%, 12% 27.2%, 18% 26.9%, 24% 25.5%, 29% 23.8%,
-    34% 22.1%, 39% 21.2%, 44% 22.2%, 49% 23.8%, 54% 25.3%, 60% 26.5%,
-    66% 28.3%, 72% 30.2%, 78% 32%, 84% 33.7%, 90% 35.1%, 96% 34.5%,
-    100% 33.8%, 100% 100%, 0 100%
-  );
+  background: url('/crystal-springs-foreground.png') center 28% / cover no-repeat;
+  /* A full-resolution alpha matte follows the photographed ridgeline, so this
+     layer never paints a made-up curve across the animated sky. */
+  filter: brightness(0.66) saturate(0.52) contrast(1.14) hue-rotate(168deg);
 }
 
 @media (max-width: 640px) {
