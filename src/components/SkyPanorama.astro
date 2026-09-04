@@ -1,23 +1,32 @@
 <canvas id="sky-panorama" class="sky-panorama" aria-hidden="true"></canvas>
+<canvas id="horizon-panorama" class="horizon-panorama" aria-hidden="true"></canvas>
 
 <script>
   import * as THREE from 'three';
 
   const canvas = document.querySelector('#sky-panorama');
+  const horizonCanvas = document.querySelector('#horizon-panorama');
 
-  if (canvas instanceof HTMLCanvasElement) {
+  if (canvas instanceof HTMLCanvasElement && horizonCanvas instanceof HTMLCanvasElement) {
     const image = new Image();
     image.decoding = 'async';
     image.src = '/milkyway-panorama.jpg';
 
     image.decode().then(() => {
-      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      const makeRenderer = (target: HTMLCanvasElement) => {
+        const renderer = new THREE.WebGLRenderer({ canvas: target, antialias: true, alpha: true, powerPreference: 'high-performance' });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        return renderer;
+      };
+
+      const renderer = makeRenderer(canvas);
+      const horizonRenderer = makeRenderer(horizonCanvas);
 
       const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(72, 1, 0.1, 100);
-      camera.lookAt(0, 0.78, -1);
+      const horizonScene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 100);
+      camera.lookAt(0, 0.14, -1);
 
       const texture = new THREE.Texture(image);
       texture.colorSpace = THREE.SRGBColorSpace;
@@ -25,15 +34,19 @@
       texture.magFilter = THREE.LinearFilter;
       texture.needsUpdate = true;
 
-      const sky = new THREE.Mesh(
+      const makeSky = () => new THREE.Mesh(
         new THREE.SphereGeometry(50, 96, 64),
         new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide }),
       );
-      sky.rotation.set(0, THREE.MathUtils.degToRad(206), 0);
+      const sky = makeSky();
+      const horizon = makeSky();
+      sky.rotation.y = THREE.MathUtils.degToRad(206);
+      horizon.rotation.y = THREE.MathUtils.degToRad(206);
       scene.add(sky);
+      horizonScene.add(horizon);
 
       const startingRotation = sky.quaternion.clone();
-      const risingAxis = new THREE.Vector3(1, 0.16, 0).normalize();
+      const celestialAxis = new THREE.Vector3(0.08, 0.98, 0.16).normalize();
       const riseSpeed = (Math.PI * 2) / (60 * 60 * 6);
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       let startedAt = performance.now();
@@ -43,12 +56,14 @@
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
         renderer.setSize(width, height, false);
+        horizonRenderer.setSize(width, height, false);
+        horizonRenderer.render(horizonScene, camera);
       };
 
       const render = (now: number) => {
         if (!reduceMotion) {
           sky.quaternion.copy(startingRotation);
-          sky.rotateOnWorldAxis(risingAxis, ((now - startedAt) / 1000) * riseSpeed);
+          sky.rotateOnWorldAxis(celestialAxis, ((now - startedAt) / 1000) * riseSpeed);
         }
         renderer.render(scene, camera);
         requestAnimationFrame(render);
@@ -57,7 +72,11 @@
       resize();
       window.addEventListener('resize', resize, { passive: true });
       renderer.render(scene, camera);
-      requestAnimationFrame(() => canvas.classList.add('is-ready'));
+      horizonRenderer.render(horizonScene, camera);
+      requestAnimationFrame(() => {
+        canvas.classList.add('is-ready');
+        horizonCanvas.classList.add('is-ready');
+      });
       requestAnimationFrame(render);
     }).catch(() => {
       // The decoded fallback remains visible if WebGL or the high-resolution image is unavailable.
