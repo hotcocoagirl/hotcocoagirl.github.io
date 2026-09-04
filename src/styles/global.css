@@ -42,10 +42,22 @@ body {
   left: 0;
   height: 24svh;
   pointer-events: none;
+  isolation: isolate;
   background: url('/crystal-springs-foreground.png') center 28% / cover no-repeat;
   /* A full-resolution alpha matte follows the photographed ridgeline, so this
      layer never paints a made-up curve across the animated sky. */
-  filter: brightness(0.66) saturate(0.52) contrast(1.14) hue-rotate(168deg);
+  filter: brightness(0.54) saturate(0.46) contrast(1.14);
+}
+
+.crystal-springs-foreground::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgb(73 46 143 / 0.72), rgb(8 10 45 / 0.92));
+  mix-blend-mode: color;
+  -webkit-mask: url('/crystal-springs-foreground.png') center 28% / cover no-repeat;
+  mask: url('/crystal-springs-foreground.png') center 28% / cover no-repeat;
 }
 
 @media (max-width: 640px) {
