@@ -1,0 +1,21 @@
+# hot cocoa girl
+
+> A personal publication by HCG (26, Bay Area) about her worldview: nutrition, health, psychology, economics, technology, physics, nature, skin care, beauty, philosophy, art, fashion, architecture, love, family and humans. "I seek truth and joy."
+
+Static Astro site styled with Tailwind CSS, deployed on GitHub Pages at https://hotcocoagirl.github.io.
+
+## Pages
+
+- [/](https://hotcocoagirl.github.io/): Writing — stream-of-consciousness posts, filterable by tag.
+- [/playground](https://hotcocoagirl.github.io/playground/): Interactive playground.
+- [/playground/lateness-calculator](https://hotcocoagirl.github.io/playground/lateness-calculator/): A lateness calculator.
+- [/upcoming](https://hotcocoagirl.github.io/upcoming/): Upcoming posts under construction (mental health & high agency, steelman manifestation, nutrition & the food system, happiness, companies that need to exist, stated vs revealed preferences, insights).
+- [/about](https://hotcocoagirl.github.io/about/): About & support HCG.
+
+## Posts
+
+- [How To Get Good Sleep & Wake Up Energized](https://hotcocoagirl.github.io/blog/learning-to-rest/) (2026-09-03): Hot bright mornings, cold dim evenings — automating light, temperature, sound, and nutrition for better sleep. Tags: Wellness, Nutrition, Happiness.
+
+## Topics
+
+Nutrition, Happiness, Love, Economics, Morality, God, Philosophy, Art, Beauty, Fashion, Building, Wellness.
