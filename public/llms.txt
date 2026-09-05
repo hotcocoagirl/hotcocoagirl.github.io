@@ -1,0 +1,11 @@
+# hot cocoa girl
+
+> Static Astro publication site styled with Tailwind CSS, deployed on GitHub Pages at https://hotcocoagirl.github.io
+
+## Blog
+
+- [Learning to Rest](/blog/learning-to-rest/): An essay on rest.
+
+## About
+
+hot cocoa girl is a personal publication. Posts cover topics including Nutrition, Happiness, Love, Economics, Morality, God, Philosophy, Art, Beauty, Fashion, Building, and Wellness.
