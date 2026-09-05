@@ -138,11 +138,11 @@ const hisTraits: Trait[] = [
     const roastFor = (allowance: number) => {
       if (allowance < 0) return 'He is apparently such a catch that she should already be in the parking lot.';
       if (allowance === 0) return 'A shocking result: punctuality. Love may never recover.';
-      if (allowance <= 15) return 'Enough time to blame traffic, but not enough time to invent a believable story.';
-      if (allowance <= 30) return 'One tasteful delay. Keep the apology charming and the entrance strong.';
-      if (allowance <= 45) return 'He may order an appetizer, but he may not lose faith.';
+      if (allowance <= 15) return 'She’s just a girl.';
+      if (allowance <= 30) return 'Fashionably late. Any earlier would look desperate.';
+      if (allowance <= 45) return 'Order an appetizer and have some faith.';
       if (allowance <= 60) return 'Meditate on gratitude—especially for her time and presence. Be grateful she is giving you a chance.';
-      return 'You’re just a chud. Be grateful.';
+      return 'You’re a chud. Scroll Twitter, wait, and pray you get to reproduce.';
     };
 
     const calculateAllowance = () => Array.from(form.querySelectorAll<HTMLInputElement>('.trait-checkbox:checked')).reduce((total, checkbox) => total + Number(checkbox.value), 0);
