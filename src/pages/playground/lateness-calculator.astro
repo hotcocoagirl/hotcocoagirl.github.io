@@ -1,0 +1,183 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+
+type Trait = { id: string; label: string; minutes: number; checked?: boolean };
+
+const herTraits: Trait[] = [
+  { id: 'beautiful', label: 'Beautiful', minutes: 30, checked: true },
+  { id: 'smart', label: 'Smart', minutes: 15, checked: true },
+  { id: 'funny', label: 'Funny', minutes: 15, checked: true },
+  { id: 'outfit', label: 'Great outfit', minutes: 5 },
+  { id: 'hair', label: 'Amazing hair', minutes: 5 },
+  { id: 'honeypot', label: 'Honeypot', minutes: -1 },
+  { id: 'virgin', label: 'Virgin', minutes: 1 },
+];
+
+const hisTraits: Trait[] = [
+  { id: 'handsome', label: 'Handsome', minutes: -5 },
+  { id: 'tall', label: 'Tall (>6 feet)', minutes: -10 },
+  { id: 'smart', label: 'Smart', minutes: -5 },
+  { id: 'funny', label: 'Funny', minutes: -5 },
+  { id: 'kind', label: 'Kind', minutes: -1 },
+  { id: 'successful', label: 'Successful', minutes: -10 },
+  { id: 'packing', label: 'Packing (>6 inches)', minutes: -5 },
+];
+---
+
+<BaseLayout title="How Late Can She Be? — hot cocoa girl" description="A deeply unserious calculator for socially acceptable lateness.">
+  <main class="mx-auto w-full max-w-5xl px-4 pb-20 pt-5 sm:px-6 lg:px-8">
+    <SiteHeader />
+
+    <div class="mt-6">
+      <a href="/playground" class="inline-flex items-center gap-2 text-sm text-violet-200 transition hover:text-white">← Back to Playground</a>
+    </div>
+
+    <article class="glass mt-4 overflow-hidden rounded-3xl border border-white/15 shadow-2xl shadow-slate-950/30">
+      <header class="border-b border-white/10 px-5 py-8 text-center sm:px-10 sm:py-10">
+        <p class="text-xs font-medium uppercase tracking-[0.25em] text-pink-200">Romantic punctuality institute</p>
+        <h1 class="mt-3 text-4xl font-bold tracking-tight text-white sm:text-6xl">How late can she be?</h1>
+        <p class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-200 sm:text-base">Beauty buys 30 minutes. Brains and jokes buy 15 each. But if he is a catch? Tragic news: the clock starts fighting back.</p>
+        <p class="mt-3 text-xs text-slate-400">A shallow calculator for entertainment purposes only. Please do not cite it in couples therapy.</p>
+      </header>
+
+      <form id="lateness-calculator" class="p-5 sm:p-8" data-min="-40" data-max="120">
+        <div class="grid gap-4 md:grid-cols-2">
+          <fieldset class="trait-panel rounded-3xl border border-pink-200/20 bg-pink-300/5 p-5 sm:p-6">
+            <legend class="px-2 text-lg font-bold text-pink-100">Why she can be late</legend>
+            <p class="mb-4 text-sm text-slate-300">Select all scientifically verified attributes.</p>
+            <div class="space-y-3">
+              {herTraits.map((trait) => (
+                <label class="trait-option flex cursor-pointer items-center justify-between gap-4 rounded-2xl border border-white/10 bg-slate-950/20 px-4 py-3">
+                  <span class="flex items-center gap-3">
+                    <input class="trait-checkbox size-5 accent-pink-300" type="checkbox" name={`her-${trait.id}`} value={trait.minutes} checked={trait.checked} />
+                    <span>{trait.label}</span>
+                  </span>
+                  <span class="rounded-full bg-pink-300/10 px-2.5 py-1 text-xs font-bold text-pink-200">{trait.minutes > 0 ? '+' : '−'}{Math.abs(trait.minutes)} min</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset class="trait-panel rounded-3xl border border-cyan-200/20 bg-cyan-300/5 p-5 sm:p-6">
+            <legend class="px-2 text-lg font-bold text-cyan-100">Why he cannot be kept waiting</legend>
+            <p class="mb-4 text-sm text-slate-300">A catch imposes certain logistical pressures.</p>
+            <div class="space-y-3">
+              {hisTraits.map((trait) => (
+                <label class="trait-option flex cursor-pointer items-center justify-between gap-4 rounded-2xl border border-white/10 bg-slate-950/20 px-4 py-3">
+                  <span class="flex items-center gap-3">
+                    <input class="trait-checkbox size-5 accent-cyan-300" type="checkbox" name={`his-${trait.id}`} value={trait.minutes} />
+                    <span>{trait.label}</span>
+                  </span>
+                  <span class="rounded-full bg-cyan-300/10 px-2.5 py-1 text-xs font-bold text-cyan-200">−{Math.abs(trait.minutes)} min</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </div>
+
+        <section class="mt-6 rounded-3xl border border-white/15 bg-slate-950/25 p-5 sm:p-8" aria-labelledby="verdict-heading">
+          <div class="text-center" aria-live="polite" aria-atomic="true">
+            <p id="verdict-heading" class="text-xs font-medium uppercase tracking-[0.25em] text-violet-200">Official ruling</p>
+            <p id="allowance-result" class="mt-2 text-4xl font-bold tracking-tight text-white sm:text-6xl">She can be 60 minutes late.</p>
+            <p id="roast-result" class="mx-auto mt-3 min-h-7 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">Meditate on gratitude—especially for her time and presence. Be grateful she is giving you a chance.</p>
+          </div>
+
+          <div class="relative mx-auto mt-8 max-w-3xl pt-14">
+            <div id="cutoff-label" class="cutoff-label absolute top-0 rounded-full border border-emerald-200/30 bg-emerald-950/80 px-3 py-1.5 text-xs font-bold text-emerald-100">Allowed: +60</div>
+            <div id="time-track" class="time-track relative h-7 overflow-hidden rounded-full border border-white/20" aria-hidden="true">
+              <div id="safe-zone" class="absolute inset-y-0 left-0 bg-emerald-400/70"></div>
+              <div id="late-zone" class="absolute inset-y-0 right-0 bg-rose-500/70"></div>
+              <span class="absolute inset-y-0 left-1/4 w-px bg-white/30"></span>
+              <span id="arrival-marker" class="arrival-marker absolute top-1/2 size-5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white bg-slate-950 shadow-lg shadow-white/30"></span>
+            </div>
+            <div class="relative mt-2 h-8 text-[0.65rem] text-slate-400 sm:text-xs" aria-hidden="true">
+              <span class="absolute left-0">40 early</span>
+              <span class="absolute left-1/4 -translate-x-1/2 font-bold text-white">On time</span>
+              <span class="absolute right-0">120 late</span>
+            </div>
+
+            <label for="arrival-time" class="mt-4 block text-center text-sm font-medium text-slate-200">Test an arrival time: <strong id="arrival-value" class="text-white">60 minutes late</strong></label>
+            <input id="arrival-time" class="arrival-slider mt-4 w-full accent-violet-300" type="range" min="-40" max="120" step="1" value="60" aria-describedby="arrival-status" />
+            <p id="arrival-status" class="status-good mx-auto mt-4 max-w-xl rounded-2xl border px-4 py-3 text-center text-sm font-bold" aria-live="polite">Acceptable. Barely, but the mathematics has spoken.</p>
+          </div>
+
+          <div class="mt-7 flex justify-center">
+            <button id="reset-calculator" class="rounded-full border border-white/20 bg-white/10 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-200" type="reset">Reset the science</button>
+          </div>
+        </section>
+      </form>
+    </article>
+  </main>
+</BaseLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#lateness-calculator');
+  const allowanceResult = document.querySelector<HTMLElement>('#allowance-result');
+  const roastResult = document.querySelector<HTMLElement>('#roast-result');
+  const arrivalInput = document.querySelector<HTMLInputElement>('#arrival-time');
+  const arrivalValue = document.querySelector<HTMLElement>('#arrival-value');
+  const arrivalStatus = document.querySelector<HTMLElement>('#arrival-status');
+  const safeZone = document.querySelector<HTMLElement>('#safe-zone');
+  const lateZone = document.querySelector<HTMLElement>('#late-zone');
+  const arrivalMarker = document.querySelector<HTMLElement>('#arrival-marker');
+  const cutoffLabel = document.querySelector<HTMLElement>('#cutoff-label');
+
+  if (form && allowanceResult && roastResult && arrivalInput && arrivalValue && arrivalStatus && safeZone && lateZone && arrivalMarker && cutoffLabel) {
+    const min = Number(form.dataset.min ?? -40);
+    const max = Number(form.dataset.max ?? 120);
+    const toPercent = (value: number) => Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));
+
+    const describeTime = (minutes: number, sentence = false) => {
+      if (minutes === 0) return sentence ? 'She has to be on time.' : 'on time';
+      if (minutes > 0) return sentence ? `She can be ${minutes} ${minutes === 1 ? 'minute' : 'minutes'} late.` : `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} late`;
+      const early = Math.abs(minutes);
+      return sentence ? `She needs to arrive ${early} ${early === 1 ? 'minute' : 'minutes'} early.` : `${early} ${early === 1 ? 'minute' : 'minutes'} early`;
+    };
+
+    const roastFor = (allowance: number) => {
+      if (allowance < 0) return 'He is apparently such a catch that she should already be in the parking lot.';
+      if (allowance === 0) return 'A shocking result: punctuality. Love may never recover.';
+      if (allowance <= 15) return 'Enough time to blame traffic, but not enough time to invent a believable story.';
+      if (allowance <= 30) return 'One tasteful delay. Keep the apology charming and the entrance strong.';
+      if (allowance <= 45) return 'He may order an appetizer, but he may not lose faith.';
+      if (allowance <= 60) return 'Meditate on gratitude—especially for her time and presence. Be grateful she is giving you a chance.';
+      return 'You’re just a chud. Be grateful.';
+    };
+
+    const calculateAllowance = () => Array.from(form.querySelectorAll<HTMLInputElement>('.trait-checkbox:checked')).reduce((total, checkbox) => total + Number(checkbox.value), 0);
+
+    const updateArrival = (allowance: number) => {
+      const arrival = Number(arrivalInput.value);
+      const acceptable = arrival <= allowance;
+      arrivalValue.textContent = describeTime(arrival);
+      arrivalMarker.style.left = `${toPercent(arrival)}%`;
+      arrivalStatus.classList.toggle('status-good', acceptable);
+      arrivalStatus.classList.toggle('status-bad', !acceptable);
+      arrivalStatus.textContent = acceptable
+        ? arrival === allowance ? 'Acceptable. Barely, but the mathematics has spoken.' : 'Acceptable. She remains within the green zone of grace.'
+        : `Too late by ${arrival - allowance} ${arrival - allowance === 1 ? 'minute' : 'minutes'}. Beauty has limits after all.`;
+    };
+
+    const update = (moveArrival = false) => {
+      const allowance = calculateAllowance();
+      const cutoffPercent = toPercent(allowance);
+      allowanceResult.textContent = describeTime(allowance, true);
+      roastResult.textContent = roastFor(allowance);
+      safeZone.style.width = `${cutoffPercent}%`;
+      lateZone.style.width = `${100 - cutoffPercent}%`;
+      cutoffLabel.style.left = `${cutoffPercent}%`;
+      cutoffLabel.style.transform = cutoffPercent > 82 ? 'translateX(-100%)' : cutoffPercent < 18 ? 'translateX(0)' : 'translateX(-50%)';
+      cutoffLabel.textContent = `Allowed: ${allowance > 0 ? '+' : ''}${allowance}`;
+      if (moveArrival) arrivalInput.value = String(allowance);
+      updateArrival(allowance);
+    };
+
+    form.addEventListener('input', (event) => {
+      if (event.target === arrivalInput) updateArrival(calculateAllowance());
+      else update(true);
+    });
+    form.addEventListener('reset', () => requestAnimationFrame(() => update(true)));
+    update(true);
+  }
+</script>
