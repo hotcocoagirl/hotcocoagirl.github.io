@@ -20,6 +20,7 @@ const {
     <meta name="description" content={description} />
     <link rel="icon" type="image/jpeg" href="/profile.jpg" />
     <link rel="apple-touch-icon" href="/profile.jpg" />
+    <link rel="preload" as="image" href="/crystal-springs-foreground.png" fetchpriority="high" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -84,6 +85,21 @@ const {
           if (document.visibilityState === 'hidden') savePosition();
           else beginPlayback();
         });
+      }
+
+      const foreground = document.querySelector('.crystal-springs-foreground');
+      if (foreground instanceof HTMLElement) {
+        const landscape = new Image();
+        landscape.decoding = 'sync';
+        landscape.src = '/crystal-springs-foreground.png';
+        const revealLandscape = () => foreground.classList.add('is-ready');
+
+        if (typeof landscape.decode === 'function') {
+          landscape.decode().then(revealLandscape).catch(revealLandscape);
+        } else {
+          landscape.addEventListener('load', revealLandscape, { once: true });
+          landscape.addEventListener('error', revealLandscape, { once: true });
+        }
       }
     </script>
   </body>

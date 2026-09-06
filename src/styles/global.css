@@ -46,23 +46,16 @@ body {
   left: 0;
   height: 24svh;
   pointer-events: none;
-  isolation: isolate;
   background: url('/crystal-springs-foreground.png') center 28% / cover no-repeat;
-  /* A full-resolution alpha matte follows the photographed ridgeline, so this
-     layer never paints a made-up curve across the animated sky. */
-  filter: brightness(0.36) saturate(0.58) contrast(1.2);
+  /* Keep the photographed alpha matte as a single composited image. The old
+     separate mask layer could become visible independently while decoding. */
+  filter: brightness(0.25) saturate(0.6) contrast(1.24);
+  opacity: 0;
+  transition: opacity 280ms ease-out;
+  will-change: opacity;
 }
 
-.crystal-springs-foreground::after {
-  position: absolute;
-  inset: 0;
-  content: '';
-  pointer-events: none;
-  background: linear-gradient(to bottom, rgb(47 24 92 / 0.8), rgb(1 2 16 / 0.96));
-  mix-blend-mode: multiply;
-  -webkit-mask: url('/crystal-springs-foreground.png') center 28% / cover no-repeat;
-  mask: url('/crystal-springs-foreground.png') center 28% / cover no-repeat;
-}
+.crystal-springs-foreground.is-ready { opacity: 1; }
 
 @media (max-width: 640px) {
   .crystal-springs-foreground { height: 27svh; }
@@ -160,5 +153,5 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .night-sky-video { display: none; transition: none; }
   .night-scene { background: #080a1b url('/milky-way-poster.jpg') center / cover no-repeat; }
-  .playground-card, .trait-option, .safe-zone, .late-zone, .arrival-marker, .cutoff-label { transition: none; }
+  .playground-card, .trait-option, .safe-zone, .late-zone, .arrival-marker, .cutoff-label, .crystal-springs-foreground { transition: none; }
 }
