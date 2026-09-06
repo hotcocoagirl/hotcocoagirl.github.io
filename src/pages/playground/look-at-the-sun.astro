@@ -40,15 +40,20 @@ import SiteHeader from '../../components/SiteHeader.astro';
           </label>
           <input id="sun-latitude" type="hidden" value="37.3797" />
           <input id="sun-longitude" type="hidden" value="-122.1375" />
-          <button id="use-now" class="sun-button" type="button">Use right now</button>
+          <button id="use-now" class="sun-button" type="button">Today at sunrise</button>
+          <button id="play-sunrise" class="sun-button sun-button-secondary" type="button">Play sunrise</button>
+          <label class="sun-scrubber flex-1" for="sun-time-slider">
+            <span>Scrub the sunrise</span>
+            <input id="sun-time-slider" type="range" min="300" max="600" step="1" value="420" />
+          </label>
         </form>
 
         <div class="mt-5 grid gap-5 lg:grid-cols-[minmax(0,1.65fr)_minmax(17rem,0.85fr)]">
           <section class="solar-stage overflow-hidden rounded-3xl border border-amber-100/20" aria-labelledby="scene-heading">
             <div class="flex items-start justify-between gap-4 px-5 pt-5 sm:px-7 sm:pt-6">
               <div>
-                <p class="text-xs font-medium uppercase tracking-[0.22em] text-amber-100">Los Altos Hills sunrise</p>
-                <h3 id="scene-heading" class="mt-2 text-xl font-bold text-white">The Sun rises into a changing window.</h3>
+                <p class="text-xs font-medium uppercase tracking-[0.22em] text-amber-100">East horizon · 48°–132° azimuth</p>
+                <h3 id="scene-heading" class="mt-2 text-xl font-bold text-white">Where does the Sun clear the named skyline?</h3>
               </div>
               <span id="sun-state" class="shrink-0 rounded-full border border-white/15 bg-slate-950/30 px-3 py-1.5 text-xs font-bold text-slate-100">Above horizon</span>
             </div>
@@ -56,7 +61,7 @@ import SiteHeader from '../../components/SiteHeader.astro';
             <div class="solar-visual mt-2 px-2 pb-1 sm:px-4">
               <svg viewBox="0 0 900 500" role="img" aria-labelledby="solar-scene-title solar-scene-description">
                 <title id="solar-scene-title">A changing Sun above layered South Bay mountains</title>
-                <desc id="solar-scene-description">The Sun’s point follows its calculated azimuth and altitude. Layered hills change opacity with the selected season to illustrate a changing sunrise window.</desc>
+                <desc id="solar-scene-description">The Sun follows the selected time’s calculated azimuth and elevation. Named summit anchors are positioned from their real coordinates and elevations relative to the Los Altos Hills viewpoint.</desc>
                 <defs>
                   <radialGradient id="sun-glow" cx="50%" cy="50%" r="50%">
                     <stop offset="0%" stop-color="#fffdf2" stop-opacity="1" />
@@ -80,28 +85,27 @@ import SiteHeader from '../../components/SiteHeader.astro';
                   <circle cx="95" cy="65" r="1" /><circle cx="172" cy="124" r="1.5" /><circle cx="260" cy="53" r="1" /><circle cx="343" cy="110" r="1" /><circle cx="471" cy="48" r="1.5" /><circle cx="596" cy="99" r="1" /><circle cx="726" cy="57" r="1" /><circle cx="825" cy="132" r="1.4" /><circle cx="775" cy="190" r="0.8" /><circle cx="60" cy="202" r="0.8" />
                 </g>
                 <path d="M0 302 Q220 262 450 295 T900 274 V410 H0Z" fill="url(#haze)" />
-                <path id="sun-ray" d="M450 355 L450 170" stroke="#fff5ca" stroke-opacity="0.38" stroke-width="2" stroke-dasharray="7 9" />
+                <path id="sun-ray" d="M450 405 L450 170" stroke="#fff5ca" stroke-opacity="0.38" stroke-width="2" stroke-dasharray="7 9" />
                 <g id="sun-orbit" transform="translate(450 170)">
                   <circle r="66" fill="url(#sun-glow)" filter="url(#soften)" />
                   <circle r="13" fill="#fff8d5" />
                   <circle r="8" fill="#fff" />
                 </g>
                 <g id="ridge-far" class="ridge-layer">
-                  <path d="M0 365 L0 325 L72 312 L139 326 L214 290 L280 305 L356 273 L423 298 L508 257 L586 279 L650 252 L727 285 L797 264 L900 296 L900 365Z" fill="#5a416e" />
-                  <path d="M0 365 L0 325 L72 312 L139 326 L214 290 L280 305 L356 273 L423 298 L508 257 L586 279 L650 252 L727 285 L797 264 L900 296" fill="none" stroke="#d6b4da" stroke-opacity="0.5" stroke-width="2" />
+                  <path id="far-ridge-fill" d="M0 405 L0 320 L900 320 L900 405Z" fill="#5a416e" />
+                  <path id="far-ridge-line" d="M0 320 L900 320" fill="none" stroke="#d6b4da" stroke-opacity="0.62" stroke-width="2" />
                 </g>
                 <g id="ridge-mid" class="ridge-layer">
-                  <path d="M0 400 L0 349 L96 328 L176 349 L242 312 L320 333 L409 299 L488 330 L560 291 L638 322 L718 285 L810 321 L900 304 L900 400Z" fill="#332c55" />
-                  <path d="M0 400 L0 349 L96 328 L176 349 L242 312 L320 333 L409 299 L488 330 L560 291 L638 322 L718 285 L810 321 L900 304" fill="none" stroke="#b9a5d4" stroke-opacity="0.4" stroke-width="2" />
+                  <path id="mid-ridge-fill" d="M0 430 L0 350 L900 350 L900 430Z" fill="#332c55" />
+                  <path id="mid-ridge-line" d="M0 350 L900 350" fill="none" stroke="#b9a5d4" stroke-opacity="0.45" stroke-width="2" />
                 </g>
                 <g id="ridge-near" class="ridge-layer">
-                  <path d="M0 500 L0 390 L88 368 L165 380 L255 342 L344 373 L428 336 L507 357 L592 326 L669 358 L746 322 L842 359 L900 347 L900 500Z" fill="#14172e" />
-                  <path d="M0 390 L88 368 L165 380 L255 342 L344 373 L428 336 L507 357 L592 326 L669 358 L746 322 L842 359 L900 347" fill="none" stroke="#8875a5" stroke-opacity="0.45" stroke-width="2" />
+                  <path id="near-ridge-fill" d="M0 500 L0 390 L900 390 L900 500Z" fill="#14172e" />
+                  <path id="near-ridge-line" d="M0 390 L900 390" fill="none" stroke="#8875a5" stroke-opacity="0.5" stroke-width="2" />
                 </g>
-                <path d="M0 430 C160 405 267 448 420 421 C548 398 732 447 900 409 L900 500 L0 500Z" fill="#080a1a" />
-                <text x="28" y="470" fill="#ddd6fe" fill-opacity="0.82" font-size="15" font-family="Zen Maru Gothic, sans-serif">near foothills</text>
-                <text x="344" y="325" fill="#f5d0fe" fill-opacity="0.82" font-size="15" font-family="Zen Maru Gothic, sans-serif">middle ridge</text>
-                <text x="672" y="278" fill="#fef3c7" fill-opacity="0.82" font-size="15" font-family="Zen Maru Gothic, sans-serif">far crest</text>
+                <g id="summit-labels"></g>
+                <text x="28" y="470" fill="#ddd6fe" fill-opacity="0.82" font-size="15" font-family="Zen Maru Gothic, sans-serif">Los Altos Hills foreground</text>
+                <text x="704" y="470" fill="#ddd6fe" fill-opacity="0.82" font-size="15" font-family="Zen Maru Gothic, sans-serif">Diablo Range</text>
               </svg>
             </div>
             <p id="ridge-caption" class="border-t border-white/10 px-5 py-4 text-xs leading-6 text-slate-300 sm:px-7">The ridge layers change with the selected date. This is a visual seasonal model, not a surveyed terrain obstruction calculation.</p>
@@ -109,9 +113,24 @@ import SiteHeader from '../../components/SiteHeader.astro';
 
           <aside class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1" aria-label="Sun position">
             <div class="sun-metric">
-              <span>Sun height</span>
+              <span>True Sun elevation</span>
               <strong id="sun-altitude">—</strong>
-              <small>degrees above a flat horizon</small>
+              <small>above sea-level horizon</small>
+            </div>
+            <div class="sun-metric">
+              <span>Modeled skyline</span>
+              <strong id="ridge-elevation">—</strong>
+              <small id="landmark-name">at the Sun’s azimuth</small>
+            </div>
+            <div class="sun-metric">
+              <span>Clearance</span>
+              <strong id="sun-clearance">—</strong>
+              <small id="clearance-detail">Sun vs. modeled ridge</small>
+            </div>
+            <div class="sun-metric">
+              <span>Air mass</span>
+              <strong id="air-mass">—</strong>
+              <small>relative atmosphere in the Sun’s path</small>
             </div>
             <div class="sun-metric">
               <span>Direction</span>
@@ -121,25 +140,32 @@ import SiteHeader from '../../components/SiteHeader.astro';
           </aside>
         </div>
 
-        <section class="mt-5 overflow-hidden rounded-3xl border border-white/15 bg-slate-950/25" aria-labelledby="reference-heading">
-          <div class="border-b border-white/10 px-5 py-5 sm:px-7">
-            <p class="text-xs font-medium uppercase tracking-[0.22em] text-emerald-100">Temporary photo reference</p>
-            <h2 id="reference-heading" class="mt-2 text-2xl font-bold text-white">Alum Rock is not the Los Altos Hills view</h2>
-            <p class="mt-2 max-w-3xl text-sm leading-7 text-slate-300">This wide panorama is from Alum Rock’s South Rim Trail, looking across the valley. It is not the sunrise-facing Los Altos Hills ridgeline and is not used by the model. A photo from your actual spot—level, wide, and roughly east-facing—will let us replace this placeholder with the view you mean.</p>
+        <section class="atmosphere-model mt-5 rounded-3xl border border-sky-200/20 p-5 sm:p-6" aria-labelledby="atmosphere-heading">
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p class="text-xs font-medium uppercase tracking-[0.22em] text-sky-100">Atmosphere explorer</p>
+              <h2 id="atmosphere-heading" class="mt-2 text-xl font-bold text-white">How haze changes a simple three-color direct-beam model</h2>
+            </div>
+            <label class="haze-control" for="mie-haze">
+              <span>Mie / aerosol haze <strong id="haze-value">20%</strong></span>
+              <input id="mie-haze" type="range" min="0" max="100" value="20" />
+            </label>
           </div>
-          <figure class="relative">
-            <img class="south-bay-panorama" src="/alum-rock-south-bay-panorama.jpg" alt="Wide daytime panorama of the South Bay and distant mountains from Alum Rock, California." loading="eager" decoding="sync" />
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-violet-950/15 to-transparent" aria-hidden="true"></div>
-            <figcaption class="absolute inset-x-0 bottom-0 px-5 py-4 text-xs text-slate-100 drop-shadow-lg sm:px-7">Alum Rock South Rim Trail panorama · photo by Erol Toker · GFDL / Wikimedia Commons</figcaption>
-          </figure>
+          <p class="mt-3 max-w-4xl text-sm leading-7 text-slate-200">This is a transparent toy spectrum: relative direct-beam transmission at 450, 550, and 650 nm using air mass plus adjustable aerosol optical depth. It shows why the composition changes near the horizon; it is not a weather observation or a personal exposure calculation.</p>
+          <div class="spectrum-bars mt-5" aria-label="Relative direct-beam transmission by wavelength">
+            <div class="spectrum-bar blue"><span>450 nm · blue</span><i><b id="blue-band"></b></i><strong id="blue-value">—</strong></div>
+            <div class="spectrum-bar green"><span>550 nm · green</span><i><b id="green-band"></b></i><strong id="green-value">—</strong></div>
+            <div class="spectrum-bar red"><span>650 nm · red</span><i><b id="red-band"></b></i><strong id="red-value">—</strong></div>
+          </div>
         </section>
 
         <section class="mt-5 rounded-3xl border border-white/15 bg-slate-950/25 p-5 sm:p-6" aria-labelledby="sources-heading">
           <h2 id="sources-heading" class="text-lg font-bold text-white">Method &amp; sources</h2>
-          <p class="mt-2 text-sm leading-7 text-slate-300">Sun position follows the NOAA solar-position approximation for the selected local date and time in Los Altos Hills. The ridge layers are a seasonal visual until we calibrate them to a panorama from your exact spot.</p>
+          <p class="mt-2 text-sm leading-7 text-slate-300">The Sun follows the NOAA solar-position approximation. The named peak anchors use public coordinates and elevations, then calculate their bearing and apparent elevation from the default Los Altos Hills viewpoint. This is a summit-sightline model, not yet a full terrain DEM: an east-facing panorama from your actual spot is the next thing needed to make every ridge and gap pixel-accurate.</p>
           <ul class="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm text-violet-200">
             <li><a href="https://gml.noaa.gov/grad/solcalc/azel.html" target="_blank" rel="noreferrer" class="underline underline-offset-4 hover:text-white">NOAA solar position</a></li>
-            <li><a href="https://commons.wikimedia.org/wiki/File:AlumRockViewSiliconValley_w.jpg" target="_blank" rel="noreferrer" class="underline underline-offset-4 hover:text-white">Panorama source &amp; licence</a></li>
+            <li><a href="https://www.usgs.gov/faqs/there-a-list-mountain-peak-elevations-united-states" target="_blank" rel="noreferrer" class="underline underline-offset-4 hover:text-white">USGS summit data</a></li>
+            <li><a href="https://pvpmc.sandia.gov/modeling-guide/1-weather-design-inputs/irradiance-insolation/air-mass/" target="_blank" rel="noreferrer" class="underline underline-offset-4 hover:text-white">Air-mass model</a></li>
           </ul>
         </section>
       </section>
@@ -151,25 +177,59 @@ import SiteHeader from '../../components/SiteHeader.astro';
   const calculator = document.querySelector<HTMLFormElement>('#sun-calculator');
   const dateInput = document.querySelector<HTMLInputElement>('#sun-date');
   const timeInput = document.querySelector<HTMLInputElement>('#sun-time');
+  const timeSlider = document.querySelector<HTMLInputElement>('#sun-time-slider');
   const latitudeInput = document.querySelector<HTMLInputElement>('#sun-latitude');
   const longitudeInput = document.querySelector<HTMLInputElement>('#sun-longitude');
   const useNowButton = document.querySelector<HTMLButtonElement>('#use-now');
+  const playButton = document.querySelector<HTMLButtonElement>('#play-sunrise');
+  const hazeInput = document.querySelector<HTMLInputElement>('#mie-haze');
   const altitudeOutput = document.querySelector<HTMLElement>('#sun-altitude');
   const azimuthOutput = document.querySelector<HTMLElement>('#sun-azimuth');
+  const ridgeOutput = document.querySelector<HTMLElement>('#ridge-elevation');
+  const landmarkOutput = document.querySelector<HTMLElement>('#landmark-name');
+  const clearanceOutput = document.querySelector<HTMLElement>('#sun-clearance');
+  const clearanceDetail = document.querySelector<HTMLElement>('#clearance-detail');
+  const airmassOutput = document.querySelector<HTMLElement>('#air-mass');
+  const hazeValue = document.querySelector<HTMLElement>('#haze-value');
   const sunState = document.querySelector<HTMLElement>('#sun-state');
   const ridgeCaption = document.querySelector<HTMLElement>('#ridge-caption');
   const sunOrbit = document.querySelector<SVGGElement>('#sun-orbit');
   const sunRay = document.querySelector<SVGPathElement>('#sun-ray');
-  const ridgeFar = document.querySelector<SVGGElement>('#ridge-far');
-  const ridgeMid = document.querySelector<SVGGElement>('#ridge-mid');
-  const ridgeNear = document.querySelector<SVGGElement>('#ridge-near');
+  const farRidgeFill = document.querySelector<SVGPathElement>('#far-ridge-fill');
+  const farRidgeLine = document.querySelector<SVGPathElement>('#far-ridge-line');
+  const midRidgeFill = document.querySelector<SVGPathElement>('#mid-ridge-fill');
+  const midRidgeLine = document.querySelector<SVGPathElement>('#mid-ridge-line');
+  const nearRidgeFill = document.querySelector<SVGPathElement>('#near-ridge-fill');
+  const nearRidgeLine = document.querySelector<SVGPathElement>('#near-ridge-line');
+  const summitLabels = document.querySelector<SVGGElement>('#summit-labels');
+  const blueBand = document.querySelector<HTMLElement>('#blue-band');
+  const greenBand = document.querySelector<HTMLElement>('#green-band');
+  const redBand = document.querySelector<HTMLElement>('#red-band');
+  const blueValue = document.querySelector<HTMLElement>('#blue-value');
+  const greenValue = document.querySelector<HTMLElement>('#green-value');
+  const redValue = document.querySelector<HTMLElement>('#red-value');
 
-  const degrees = (radians: number) => radians * 180 / Math.PI;
-  const radians = (degreesValue: number) => degreesValue * Math.PI / 180;
+  const degrees = (value: number) => value * 180 / Math.PI;
+  const radians = (value: number) => value * Math.PI / 180;
   const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
   const pad = (value: number) => String(value).padStart(2, '0');
+  const minutesToTime = (minutes: number) => `${pad(Math.floor(minutes / 60) % 24)}:${pad(minutes % 60)}`;
+  const circularDifference = (first: number, second: number) => Math.abs(((first - second + 540) % 360) - 180);
+  let sunriseTimer: ReturnType<typeof setInterval> | undefined;
 
   type SolarPosition = { altitude: number; azimuth: number };
+  type Summit = { name: string; latitude: number; longitude: number; elevation: number; width: number };
+  type Sightline = Summit & { azimuth: number; angle: number };
+
+  // Public summit locations and 3DEP elevations. These become a true skyline only
+  // when we replace this anchor model with a full DEM profile from the exact viewpoint.
+  const summitAnchors: Summit[] = [
+    { name: 'Mission Peak', latitude: 37.5125462, longitude: -121.8809081, elevation: 768, width: 5.4 },
+    { name: 'Monument Peak', latitude: 37.4846270, longitude: -121.8657354, elevation: 790, width: 5.4 },
+    { name: 'Mount Day', latitude: 37.4207700, longitude: -121.7007820, elevation: 1165, width: 7.2 },
+    { name: 'Mount Hamilton', latitude: 37.3418834, longitude: -121.6430017, elevation: 1281, width: 10.8 },
+    { name: 'Copernicus Peak', latitude: 37.3467772, longitude: -121.6299755, elevation: 1337, width: 8.2 },
+  ];
 
   const positionFor = (moment: Date, latitude: number, longitude: number): SolarPosition => {
     const start = new Date(moment.getFullYear(), 0, 0);
@@ -189,59 +249,173 @@ import SiteHeader from '../../components/SiteHeader.astro';
     return { altitude, azimuth };
   };
 
-  const sunriseAzimuth = (date: Date, latitude: number, longitude: number) => {
-    let previous = positionFor(new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0), latitude, longitude);
-    for (let minute = 1; minute <= 1_440; minute += 1) {
-      const candidate = positionFor(new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, minute), latitude, longitude);
-      if (previous.altitude < 0 && candidate.altitude >= 0) return candidate.azimuth;
+  const bearingAndDistance = (latitude: number, longitude: number, targetLatitude: number, targetLongitude: number) => {
+    const lat1 = radians(latitude);
+    const lat2 = radians(targetLatitude);
+    const deltaLongitude = radians(targetLongitude - longitude);
+    const bearing = (degrees(Math.atan2(Math.sin(deltaLongitude) * Math.cos(lat2), Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(deltaLongitude))) + 360) % 360;
+    const a = Math.sin((lat2 - lat1) / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(deltaLongitude / 2) ** 2;
+    return { bearing, distance: 6_371_000 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) };
+  };
+
+  const sightlinesFor = (latitude: number, longitude: number, observerElevation = 87): Sightline[] => summitAnchors.map((summit) => {
+    const { bearing, distance } = bearingAndDistance(latitude, longitude, summit.latitude, summit.longitude);
+    return { ...summit, azimuth: bearing, angle: degrees(Math.atan2(summit.elevation - observerElevation, distance)) };
+  });
+
+  const skylineAngleAt = (azimuth: number, sightlines: Sightline[]) => Math.max(0.32, ...sightlines.map((summit) => summit.angle * Math.exp(-0.5 * (circularDifference(azimuth, summit.azimuth) / summit.width) ** 2)));
+  const closestSummit = (azimuth: number, sightlines: Sightline[]) => sightlines.reduce((closest, summit) => circularDifference(summit.azimuth, azimuth) < circularDifference(closest.azimuth, azimuth) ? summit : closest);
+  const pointX = (azimuth: number) => 58 + ((azimuth - 48) / 84) * 784;
+  const pointY = (elevation: number) => 408 - clamp(elevation, -1, 7.6) * 42;
+  const profilePath = (sightlines: Sightline[], elevationOffset = 0) => Array.from({ length: 85 }, (_, index) => {
+    const azimuth = 48 + index;
+    return `${index === 0 ? 'M' : 'L'}${pointX(azimuth).toFixed(1)} ${pointY(skylineAngleAt(azimuth, sightlines) + elevationOffset).toFixed(1)}`;
+  }).join(' ');
+  const areaPath = (profile: string, bottom: number) => `${profile} L${pointX(132).toFixed(1)} ${bottom} L${pointX(48).toFixed(1)} ${bottom} Z`;
+  const timeFor = (moment: Date) => moment.getHours() * 60 + moment.getMinutes();
+  const flatSunrise = (date: Date, latitude: number, longitude: number) => {
+    let previous = positionFor(new Date(date.getFullYear(), date.getMonth(), date.getDate(), 4, 0), latitude, longitude);
+    for (let minute = 241; minute <= 720; minute += 1) {
+      const candidateMoment = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, minute);
+      const candidate = positionFor(candidateMoment, latitude, longitude);
+      if (previous.altitude < 0 && candidate.altitude >= 0) return candidateMoment;
       previous = candidate;
     }
     return null;
   };
-
-  const setNow = () => {
-    const now = new Date();
-    if (dateInput) dateInput.value = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
-    if (timeInput) timeInput.value = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  const terrainClearTime = (date: Date, latitude: number, longitude: number, sightlines: Sightline[]) => {
+    for (let minute = 240; minute <= 720; minute += 1) {
+      const candidate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, minute);
+      const solar = positionFor(candidate, latitude, longitude);
+      if (solar.altitude >= skylineAngleAt(solar.azimuth, sightlines)) return candidate;
+    }
+    return null;
   };
 
-  const update = () => {
-    if (!dateInput || !timeInput || !latitudeInput || !longitudeInput || !altitudeOutput || !azimuthOutput || !sunState || !ridgeCaption || !sunOrbit || !sunRay || !ridgeFar || !ridgeMid || !ridgeNear) return;
+  const setTodayAtSunrise = () => {
+    if (!dateInput || !timeInput || !latitudeInput || !longitudeInput) return;
+    const now = new Date();
+    dateInput.value = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+    const rise = flatSunrise(now, Number(latitudeInput.value), Number(longitudeInput.value));
+    timeInput.value = minutesToTime((rise ? timeFor(rise) : 390) + 12);
+    if (timeSlider) timeSlider.value = String(timeFor(new Date(`${dateInput.value}T${timeInput.value}:00`)));
+  };
+
+  const updateSpectrum = (airMass: number | null) => {
+    if (!hazeInput || !hazeValue || !blueBand || !greenBand || !redBand || !blueValue || !greenValue || !redValue) return;
+    const haze = Number(hazeInput.value);
+    hazeValue.textContent = `${haze}%`;
+    const transmission = (wavelengthNm: number) => {
+      if (!airMass) return 0;
+      const microns = wavelengthNm / 1000;
+      const rayleighOpticalDepth = 0.008735 * Math.pow(microns, -4.08);
+      const aerosolOpticalDepth = (0.035 + haze * 0.00265) * Math.pow(microns / 0.55, -1.3);
+      return clamp(Math.exp(-(rayleighOpticalDepth + aerosolOpticalDepth) * airMass), 0, 1);
+    };
+    [[450, blueBand, blueValue], [550, greenBand, greenValue], [650, redBand, redValue]].forEach(([wavelength, bar, value]) => {
+      const percent = transmission(Number(wavelength)) * 100;
+      (bar as HTMLElement).style.width = `${percent}%`;
+      (value as HTMLElement).textContent = airMass ? `${Math.round(percent)}%` : '—';
+    });
+  };
+
+  const renderSummitLabels = (sightlines: Sightline[]) => {
+    if (!summitLabels) return;
+    summitLabels.replaceChildren();
+    sightlines.filter((summit) => summit.azimuth >= 48 && summit.azimuth <= 132).forEach((summit, index) => {
+      const x = pointX(summit.azimuth);
+      const y = pointY(summit.angle);
+      const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      label.setAttribute('x', String(x));
+      label.setAttribute('y', String(y - 13 - (index % 2) * 16));
+      label.setAttribute('text-anchor', 'middle');
+      label.setAttribute('fill', '#fff7d1');
+      label.setAttribute('font-size', '13');
+      label.setAttribute('font-family', 'Zen Maru Gothic, sans-serif');
+      label.setAttribute('font-weight', '700');
+      label.textContent = summit.name;
+      summitLabels.append(label);
+      const tick = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      tick.setAttribute('d', `M${x} ${y - 3} L${x} ${y - 9 - (index % 2) * 16}`);
+      tick.setAttribute('stroke', '#fef3c7');
+      tick.setAttribute('stroke-opacity', '0.7');
+      summitLabels.append(tick);
+    });
+  };
+
+  const update = (syncSlider = true) => {
+    if (!dateInput || !timeInput || !latitudeInput || !longitudeInput || !altitudeOutput || !azimuthOutput || !ridgeOutput || !landmarkOutput || !clearanceOutput || !clearanceDetail || !airmassOutput || !sunState || !ridgeCaption || !sunOrbit || !sunRay || !farRidgeFill || !farRidgeLine || !midRidgeFill || !midRidgeLine || !nearRidgeFill || !nearRidgeLine) return;
     const selected = new Date(`${dateInput.value}T${timeInput.value}:00`);
     const latitude = Number(latitudeInput.value);
     const longitude = Number(longitudeInput.value);
     if (Number.isNaN(selected.getTime()) || !Number.isFinite(latitude) || !Number.isFinite(longitude)) return;
+    if (syncSlider && timeSlider) timeSlider.value = String(timeFor(selected));
+
+    const sightlines = sightlinesFor(latitude, longitude);
+    const profile = profilePath(sightlines);
+    const midProfile = profilePath(sightlines, -0.34);
+    const nearProfile = profilePath(sightlines, -0.68);
+    farRidgeFill.setAttribute('d', areaPath(profile, 408));
+    farRidgeLine.setAttribute('d', profile);
+    midRidgeFill.setAttribute('d', areaPath(midProfile, 438));
+    midRidgeLine.setAttribute('d', midProfile);
+    nearRidgeFill.setAttribute('d', areaPath(nearProfile, 500));
+    nearRidgeLine.setAttribute('d', nearProfile);
+    renderSummitLabels(sightlines);
 
     const solar = positionFor(selected, latitude, longitude);
-    const isAboveHorizon = solar.altitude >= 0;
-    const sunX = 450 + Math.sin(radians(solar.azimuth)) * 340;
-    const sunY = 356 - clamp(solar.altitude, -10, 78) * 3.35;
+    const ridgeAngle = skylineAngleAt(solar.azimuth, sightlines);
+    const summit = closestSummit(solar.azimuth, sightlines);
+    const clearance = solar.altitude - ridgeAngle;
+    const visible = clearance >= 0;
+    const zenith = 90 - solar.altitude;
+    const airMass = solar.altitude >= 0 ? 1 / (Math.cos(radians(zenith)) + 0.50572 * Math.pow(96.07995 - zenith, -1.6364)) : null;
+    const inScene = solar.azimuth >= 48 && solar.azimuth <= 132;
+    const sunX = pointX(clamp(solar.azimuth, 48, 132));
+    const sunY = pointY(solar.altitude);
+    const clearTime = terrainClearTime(selected, latitude, longitude, sightlines);
 
-    altitudeOutput.textContent = `${solar.altitude.toFixed(1)}°`;
+    altitudeOutput.textContent = `${solar.altitude.toFixed(2)}°`;
     azimuthOutput.textContent = `${solar.azimuth.toFixed(1)}°`;
-    sunState.textContent = isAboveHorizon ? 'Above flat horizon' : 'Below flat horizon';
-    sunState.classList.toggle('sun-is-down', !isAboveHorizon);
+    ridgeOutput.textContent = `${ridgeAngle.toFixed(2)}°`;
+    landmarkOutput.textContent = `closest named summit: ${summit.name}`;
+    clearanceOutput.textContent = `${clearance >= 0 ? '+' : ''}${clearance.toFixed(2)}°`;
+    clearanceDetail.textContent = visible ? `above the ${summit.name} anchor model` : `still behind the ${summit.name} anchor model`;
+    airmassOutput.textContent = airMass ? `${airMass.toFixed(2)}×` : 'below horizon';
+    sunState.textContent = !inScene ? 'Outside sunrise frame' : visible ? 'Visible above model ridge' : 'Behind model ridge';
+    sunState.classList.toggle('sun-is-down', !visible || !inScene);
     sunOrbit.setAttribute('transform', `translate(${sunX.toFixed(1)} ${sunY.toFixed(1)})`);
-    sunOrbit.setAttribute('opacity', solar.altitude < -10 ? '0' : '1');
-    sunRay.setAttribute('d', `M450 356 L${sunX.toFixed(1)} ${sunY.toFixed(1)}`);
-    sunRay.setAttribute('opacity', isAboveHorizon ? '1' : '0.16');
-
-    const firstDay = new Date(selected.getFullYear(), 0, 0);
-    const dayOfYear = Math.floor((selected.getTime() - firstDay.getTime()) / 86_400_000);
-    const season = Math.sin((2 * Math.PI * (dayOfYear - 80)) / 365.2422);
-    ridgeFar.style.opacity = String(0.32 + 0.55 * Math.max(0, season));
-    ridgeMid.style.opacity = String(0.35 + 0.5 * (1 - Math.abs(season)));
-    ridgeNear.style.opacity = String(0.42 + 0.44 * Math.max(0, -season));
-    const rise = sunriseAzimuth(selected, latitude, longitude);
-    ridgeCaption.textContent = rise === null
-      ? 'No sunrise could be calculated for this date and location. The ridge layers remain a visual seasonal model, not a surveyed terrain obstruction calculation.'
-      : `On a flat horizon, sunrise is approximately at ${rise.toFixed(1)}° from true north. The layered ridge changes with the date; we will calibrate it to your actual Los Altos Hills view once we have the photo.`;
+    sunOrbit.setAttribute('opacity', inScene && solar.altitude > -1.6 ? '1' : '0');
+    sunRay.setAttribute('d', `M${sunX.toFixed(1)} ${pointY(ridgeAngle).toFixed(1)} L${sunX.toFixed(1)} ${sunY.toFixed(1)}`);
+    sunRay.setAttribute('opacity', inScene ? '1' : '0');
+    ridgeCaption.textContent = clearTime
+      ? `Flat-horizon sunrise is followed by the modeled skyline clearance at ${minutesToTime(timeFor(clearTime))}. At this selected time the Sun is ${Math.abs(clearance).toFixed(2)}° ${visible ? 'above' : 'below'} the modeled ridge, nearest ${summit.name}.`
+      : 'No terrain-clear time was found in this model for the selected date.';
+    updateSpectrum(airMass);
   };
 
   if (calculator && dateInput && timeInput) {
-    setNow();
-    calculator.addEventListener('input', update);
-    useNowButton?.addEventListener('click', () => { setNow(); update(); });
+    setTodayAtSunrise();
+    calculator.addEventListener('input', () => update());
+    timeSlider?.addEventListener('input', () => {
+      if (!timeSlider || !timeInput) return;
+      timeInput.value = minutesToTime(Number(timeSlider.value));
+      update(false);
+    });
+    hazeInput?.addEventListener('input', () => update(false));
+    useNowButton?.addEventListener('click', () => { setTodayAtSunrise(); update(); });
+    playButton?.addEventListener('click', () => {
+      if (!timeInput || !timeSlider || !playButton) return;
+      if (sunriseTimer) { clearInterval(sunriseTimer); sunriseTimer = undefined; playButton.textContent = 'Play sunrise'; return; }
+      playButton.textContent = 'Pause sunrise';
+      sunriseTimer = setInterval(() => {
+        const nextMinute = Number(timeSlider.value) + 1;
+        if (nextMinute > Number(timeSlider.max)) { clearInterval(sunriseTimer); sunriseTimer = undefined; playButton.textContent = 'Play sunrise'; return; }
+        timeSlider.value = String(nextMinute);
+        timeInput.value = minutesToTime(nextMinute);
+        update(false);
+      }, 320);
+    });
     update();
   }
 </script>
@@ -254,7 +428,11 @@ import SiteHeader from '../../components/SiteHeader.astro';
   .sun-control input:focus, .sun-button:focus-visible { outline: 2px solid #fef3c7; outline-offset: 3px; }
   .sun-button { border: 1px solid rgb(254 243 199 / 0.28); color: #fff7df; background: rgb(254 243 199 / 0.1); transition: background-color 160ms ease, transform 160ms ease; }
   .sun-button { border-radius: 0.85rem; padding: 0.72rem 0.85rem; font-size: 0.82rem; font-weight: 700; }
+  .sun-button-secondary { border-color: rgb(186 230 253 / 0.32); background: rgb(56 189 248 / 0.1); color: #e0f2fe; }
   .sun-button:hover { background: rgb(254 243 199 / 0.18); transform: translateY(-1px); }
+  .sun-button-secondary:hover { background: rgb(56 189 248 / 0.18); }
+  .sun-scrubber { display: grid; min-width: min(100%, 14rem); gap: 0.45rem; color: #e2e8f0; font-size: 0.8rem; font-weight: 700; }
+  .sun-scrubber input, .haze-control input { width: 100%; accent-color: #fde68a; }
   .solar-stage { background: rgb(4 6 19 / 0.56); }
   .solar-visual svg { display: block; width: 100%; height: auto; overflow: visible; }
   .ridge-layer { transition: opacity 500ms ease; }
@@ -264,8 +442,18 @@ import SiteHeader from '../../components/SiteHeader.astro';
   .sun-metric > span { color: #fde68a; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
   .sun-metric strong { margin-top: 0.35rem; color: #fff; font-size: 1.65rem; line-height: 1.2; }
   .sun-metric small { margin-top: 0.35rem; color: #cbd5e1; font-size: 0.72rem; line-height: 1.3; }
-  .south-bay-panorama { display: block; width: 100%; min-height: 13rem; object-fit: cover; object-position: center 47%; filter: saturate(0.68) brightness(0.62) hue-rotate(9deg); }
+  .atmosphere-model { background: linear-gradient(125deg, rgb(12 74 110 / 0.32), rgb(76 29 149 / 0.2)); }
+  .haze-control { display: grid; width: min(100%, 18rem); gap: 0.55rem; color: #e0f2fe; font-size: 0.8rem; font-weight: 700; }
+  .haze-control strong { color: #fff; }
+  .spectrum-bars { display: grid; gap: 0.8rem; }
+  .spectrum-bar { display: grid; grid-template-columns: 8.5rem 1fr 3rem; align-items: center; gap: 0.8rem; color: #e2e8f0; font-size: 0.78rem; }
+  .spectrum-bar i { display: block; height: 0.65rem; overflow: hidden; border: 1px solid rgb(255 255 255 / 0.18); border-radius: 999px; background: rgb(2 6 23 / 0.45); }
+  .spectrum-bar b { display: block; height: 100%; min-width: 2px; border-radius: inherit; transition: width 220ms ease; }
+  .spectrum-bar strong { text-align: right; color: white; }
+  .spectrum-bar.blue b { background: #93c5fd; }
+  .spectrum-bar.green b { background: #86efac; }
+  .spectrum-bar.red b { background: #fda4af; }
   .sun-is-down { border-color: rgb(196 181 253 / 0.35); background: rgb(91 33 182 / 0.16); color: #ddd6fe; }
-  @media (min-width: 640px) { .south-bay-panorama { min-height: 18rem; } }
-  @media (prefers-reduced-motion: reduce) { .sun-button, .ridge-layer, #sun-orbit, #sun-ray { transition: none; } }
+  @media (max-width: 520px) { .spectrum-bar { grid-template-columns: 1fr 3rem; } .spectrum-bar > span { grid-column: 1 / -1; } }
+  @media (prefers-reduced-motion: reduce) { .sun-button, .ridge-layer, #sun-orbit, #sun-ray, .spectrum-bar b { transition: none; } }
 </style>
