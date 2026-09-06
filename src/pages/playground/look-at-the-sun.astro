@@ -15,62 +15,40 @@ import SiteHeader from '../../components/SiteHeader.astro';
       <header class="border-b border-white/10 px-5 py-8 sm:px-10 sm:py-11">
         <p class="text-xs font-medium uppercase tracking-[0.25em] text-amber-100">A visual solar-geometry playground</p>
         <h1 class="mt-3 text-4xl font-bold tracking-tight text-white sm:text-6xl">Look At The Sun <span class="whitespace-nowrap">(SAFELY)</span></h1>
-        <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-200 sm:text-base">Watch the Sun move through a South Bay sky. See its angle, the thickness of atmosphere in its path, and a seasonal ridge illustration—without confusing any of that geometry for eye-safety advice.</p>
+        <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-200 sm:text-base">Watch the Sun rise over the South Bay ridgeline.</p>
       </header>
 
-      <section class="sun-warning mx-5 mt-6 rounded-3xl border border-amber-100/30 p-5 sm:mx-8 sm:p-6" aria-labelledby="safety-heading">
-        <div class="flex gap-4">
-          <span class="grid size-10 shrink-0 place-items-center rounded-full border border-amber-100/35 bg-amber-100/10 text-xl text-amber-50" aria-hidden="true">!</span>
-          <div>
-            <h2 id="safety-heading" class="text-lg font-bold text-amber-50">Geometry is not permission.</h2>
-            <p class="mt-2 max-w-4xl text-sm leading-7 text-amber-50/90">This page never calculates a time that is safe for direct Sun viewing. The Sun can damage the retina even when it looks dim, low, red, or comfortable. Do not look directly at it; use indirect methods or proper ISO 12312-2 solar viewers only for the use they are designed for. If you have a concern about an exposure or a myopia treatment, speak with an eye-care professional.</p>
-          </div>
-        </div>
-      </section>
+      <p class="sun-note mx-5 mt-6 rounded-2xl px-5 py-3 text-sm leading-6 text-amber-50/90 sm:mx-8">A visual model of the Sun and the ridge—not a personal exposure assessment.</p>
 
       <section class="p-5 sm:p-8" aria-labelledby="calculator-heading">
         <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p class="text-xs font-medium uppercase tracking-[0.22em] text-pink-200">The calculator</p>
-            <h2 id="calculator-heading" class="mt-2 text-2xl font-bold tracking-tight text-white sm:text-3xl">A Sun, a horizon, and a changing year</h2>
+            <p class="text-xs font-medium uppercase tracking-[0.22em] text-pink-200">The sunrise viewer</p>
+            <h2 id="calculator-heading" class="mt-2 text-2xl font-bold tracking-tight text-white sm:text-3xl">A changing Sun over Los Altos Hills</h2>
           </div>
-          <p class="max-w-md text-sm leading-6 text-slate-300">Default: San José, California. Change the inputs to explore a different place; the ridge drawing remains an illustrative South Bay profile.</p>
+          <p class="max-w-md text-sm leading-6 text-slate-300">Los Altos Hills, California · east-facing sunrise window</p>
         </div>
 
-        <form id="sun-calculator" class="mt-6 grid gap-4 rounded-3xl border border-white/15 bg-slate-950/25 p-5 sm:grid-cols-2 lg:grid-cols-5 sm:p-6">
-          <label class="sun-control lg:col-span-1" for="sun-date">
-            <span>Date / season</span>
+        <form id="sun-calculator" class="mt-6 flex flex-wrap items-end gap-4 rounded-3xl border border-white/15 bg-slate-950/25 p-5 sm:p-6">
+          <label class="sun-control" for="sun-date">
+            <span>Date</span>
             <input id="sun-date" type="date" />
           </label>
-          <label class="sun-control lg:col-span-1" for="sun-time">
-            <span>Local time</span>
+          <label class="sun-control" for="sun-time">
+            <span>Time</span>
             <input id="sun-time" type="time" step="60" />
           </label>
-          <label class="sun-control" for="sun-latitude">
-            <span>Latitude</span>
-            <input id="sun-latitude" type="number" inputmode="decimal" min="-90" max="90" step="0.0001" value="37.3382" />
-          </label>
-          <label class="sun-control" for="sun-longitude">
-            <span>Longitude</span>
-            <input id="sun-longitude" type="number" inputmode="decimal" min="-180" max="180" step="0.0001" value="-121.8863" />
-          </label>
-          <div class="flex items-end gap-2">
-            <button id="use-now" class="sun-button w-full" type="button">Use right now</button>
-          </div>
-          <div class="col-span-full flex flex-wrap gap-2 pt-1" aria-label="Season shortcuts">
-            <button class="season-chip" type="button" data-date="2026-03-20">Spring equinox</button>
-            <button class="season-chip" type="button" data-date="2026-06-21">Summer solstice</button>
-            <button class="season-chip" type="button" data-date="2026-09-22">Fall equinox</button>
-            <button class="season-chip" type="button" data-date="2026-12-21">Winter solstice</button>
-          </div>
+          <input id="sun-latitude" type="hidden" value="37.3797" />
+          <input id="sun-longitude" type="hidden" value="-122.1375" />
+          <button id="use-now" class="sun-button" type="button">Use right now</button>
         </form>
 
         <div class="mt-5 grid gap-5 lg:grid-cols-[minmax(0,1.65fr)_minmax(17rem,0.85fr)]">
           <section class="solar-stage overflow-hidden rounded-3xl border border-amber-100/20" aria-labelledby="scene-heading">
             <div class="flex items-start justify-between gap-4 px-5 pt-5 sm:px-7 sm:pt-6">
               <div>
-                <p class="text-xs font-medium uppercase tracking-[0.22em] text-amber-100">South Bay sky window</p>
-                <h3 id="scene-heading" class="mt-2 text-xl font-bold text-white">The Sun has to clear every layer of the ridge.</h3>
+                <p class="text-xs font-medium uppercase tracking-[0.22em] text-amber-100">Los Altos Hills sunrise</p>
+                <h3 id="scene-heading" class="mt-2 text-xl font-bold text-white">The Sun rises into a changing window.</h3>
               </div>
               <span id="sun-state" class="shrink-0 rounded-full border border-white/15 bg-slate-950/30 px-3 py-1.5 text-xs font-bold text-slate-100">Above horizon</span>
             </div>
@@ -126,51 +104,28 @@ import SiteHeader from '../../components/SiteHeader.astro';
                 <text x="672" y="278" fill="#fef3c7" fill-opacity="0.82" font-size="15" font-family="Zen Maru Gothic, sans-serif">far crest</text>
               </svg>
             </div>
-            <p id="ridge-caption" class="border-t border-white/10 px-5 py-4 text-xs leading-6 text-slate-300 sm:px-7">The ridge layers cross-fade with the selected season. This is a visual seasonal model, not a surveyed terrain obstruction calculation.</p>
+            <p id="ridge-caption" class="border-t border-white/10 px-5 py-4 text-xs leading-6 text-slate-300 sm:px-7">The ridge layers change with the selected date. This is a visual seasonal model, not a surveyed terrain obstruction calculation.</p>
           </section>
 
-          <aside class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1" aria-label="Solar measurements">
+          <aside class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1" aria-label="Sun position">
             <div class="sun-metric">
-              <span>Sun altitude</span>
+              <span>Sun height</span>
               <strong id="sun-altitude">—</strong>
               <small>degrees above a flat horizon</small>
             </div>
             <div class="sun-metric">
-              <span>Sun azimuth</span>
+              <span>Direction</span>
               <strong id="sun-azimuth">—</strong>
               <small>clockwise from true north</small>
-            </div>
-            <div class="sun-metric">
-              <span>Air mass</span>
-              <strong id="air-mass">—</strong>
-              <small>relative path length through air</small>
-            </div>
-            <div class="sun-metric sun-metric-wide">
-              <span>Clear-sky beam, illustrative only</span>
-              <strong id="beam-transmission">—</strong>
-              <small>Not a wavelength spectrum, dose estimate, or eye-safety score.</small>
             </div>
           </aside>
         </div>
 
-        <section class="mt-5 grid gap-5 lg:grid-cols-2">
-          <div class="rounded-3xl border border-pink-200/20 bg-pink-300/5 p-5 sm:p-6">
-            <p class="text-xs font-medium uppercase tracking-[0.22em] text-pink-200">What changes at low Sun</p>
-            <h3 class="mt-2 text-xl font-bold text-white">More atmosphere, different sky—not a gentler Sun.</h3>
-            <p class="mt-3 text-sm leading-7 text-slate-200">As altitude falls, the direct ray travels through more air. Mie scattering redirects light from larger particles and aerosols; molecular scattering is stronger at shorter wavelengths. That is part of why the low sky can look warm and hazy. But color, apparent brightness, and the air-mass number here cannot establish retinal safety.</p>
-          </div>
-          <div class="rounded-3xl border border-violet-200/20 bg-violet-300/5 p-5 sm:p-6">
-            <p class="text-xs font-medium uppercase tracking-[0.22em] text-violet-200">RLRL ≠ sunlight</p>
-            <h3 class="mt-2 text-xl font-bold text-white">A device-specific clinical question.</h3>
-            <p class="mt-3 text-sm leading-7 text-slate-200">Repeated low-level red-light (RLRL) therapy is studied as a controlled, device-specific intervention for childhood myopia. It is not a recipe to stare toward the Sun. Published reviews still call for longer-term safety data and clinical monitoring, so treatment decisions belong with an ophthalmologist—not a sunrise calculator.</p>
-          </div>
-        </section>
-
         <section class="mt-5 overflow-hidden rounded-3xl border border-white/15 bg-slate-950/25" aria-labelledby="reference-heading">
           <div class="border-b border-white/10 px-5 py-5 sm:px-7">
-            <p class="text-xs font-medium uppercase tracking-[0.22em] text-emerald-100">A real local reference</p>
-            <h2 id="reference-heading" class="mt-2 text-2xl font-bold text-white">South Bay, in one very wide frame</h2>
-            <p class="mt-2 max-w-3xl text-sm leading-7 text-slate-300">This is a full-resolution panorama photographed from the Alum Rock South Rim Trail. It gives the playground a real South Bay ridgeline to look at, but it is deliberately not used as terrain data: its view faces across the valley, while an accurate sunrise-occlusion model needs a panorama and compass calibration from the exact viewing spot.</p>
+            <p class="text-xs font-medium uppercase tracking-[0.22em] text-emerald-100">Temporary photo reference</p>
+            <h2 id="reference-heading" class="mt-2 text-2xl font-bold text-white">Alum Rock is not the Los Altos Hills view</h2>
+            <p class="mt-2 max-w-3xl text-sm leading-7 text-slate-300">This wide panorama is from Alum Rock’s South Rim Trail, looking across the valley. It is not the sunrise-facing Los Altos Hills ridgeline and is not used by the model. A photo from your actual spot—level, wide, and roughly east-facing—will let us replace this placeholder with the view you mean.</p>
           </div>
           <figure class="relative">
             <img class="south-bay-panorama" src="/alum-rock-south-bay-panorama.jpg" alt="Wide daytime panorama of the South Bay and distant mountains from Alum Rock, California." loading="eager" decoding="sync" />
@@ -181,11 +136,9 @@ import SiteHeader from '../../components/SiteHeader.astro';
 
         <section class="mt-5 rounded-3xl border border-white/15 bg-slate-950/25 p-5 sm:p-6" aria-labelledby="sources-heading">
           <h2 id="sources-heading" class="text-lg font-bold text-white">Method &amp; sources</h2>
-          <p class="mt-2 text-sm leading-7 text-slate-300">Sun position follows the NOAA solar-position approximation for the selected local date, time, latitude, and longitude. Air mass uses the Kasten–Young relative-air-mass approximation above the horizon. It assumes a flat horizon and clear sky; it does not model cloud, haze, local terrain elevation, ocular exposure, or any treatment dose.</p>
+          <p class="mt-2 text-sm leading-7 text-slate-300">Sun position follows the NOAA solar-position approximation for the selected local date and time in Los Altos Hills. The ridge layers are a seasonal visual until we calibrate them to a panorama from your exact spot.</p>
           <ul class="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm text-violet-200">
             <li><a href="https://gml.noaa.gov/grad/solcalc/azel.html" target="_blank" rel="noreferrer" class="underline underline-offset-4 hover:text-white">NOAA solar position</a></li>
-            <li><a href="https://www.nei.nih.gov/research-and-training/research-news/how-watch-eclipse-safely" target="_blank" rel="noreferrer" class="underline underline-offset-4 hover:text-white">National Eye Institute: solar safety</a></li>
-            <li><a href="https://pubmed.ncbi.nlm.nih.gov/39672511/" target="_blank" rel="noreferrer" class="underline underline-offset-4 hover:text-white">RLRL safety review</a></li>
             <li><a href="https://commons.wikimedia.org/wiki/File:AlumRockViewSiliconValley_w.jpg" target="_blank" rel="noreferrer" class="underline underline-offset-4 hover:text-white">Panorama source &amp; licence</a></li>
           </ul>
         </section>
@@ -203,8 +156,6 @@ import SiteHeader from '../../components/SiteHeader.astro';
   const useNowButton = document.querySelector<HTMLButtonElement>('#use-now');
   const altitudeOutput = document.querySelector<HTMLElement>('#sun-altitude');
   const azimuthOutput = document.querySelector<HTMLElement>('#sun-azimuth');
-  const airmassOutput = document.querySelector<HTMLElement>('#air-mass');
-  const beamOutput = document.querySelector<HTMLElement>('#beam-transmission');
   const sunState = document.querySelector<HTMLElement>('#sun-state');
   const ridgeCaption = document.querySelector<HTMLElement>('#ridge-caption');
   const sunOrbit = document.querySelector<SVGGElement>('#sun-orbit');
@@ -255,7 +206,7 @@ import SiteHeader from '../../components/SiteHeader.astro';
   };
 
   const update = () => {
-    if (!dateInput || !timeInput || !latitudeInput || !longitudeInput || !altitudeOutput || !azimuthOutput || !airmassOutput || !beamOutput || !sunState || !ridgeCaption || !sunOrbit || !sunRay || !ridgeFar || !ridgeMid || !ridgeNear) return;
+    if (!dateInput || !timeInput || !latitudeInput || !longitudeInput || !altitudeOutput || !azimuthOutput || !sunState || !ridgeCaption || !sunOrbit || !sunRay || !ridgeFar || !ridgeMid || !ridgeNear) return;
     const selected = new Date(`${dateInput.value}T${timeInput.value}:00`);
     const latitude = Number(latitudeInput.value);
     const longitude = Number(longitudeInput.value);
@@ -263,16 +214,11 @@ import SiteHeader from '../../components/SiteHeader.astro';
 
     const solar = positionFor(selected, latitude, longitude);
     const isAboveHorizon = solar.altitude >= 0;
-    const zenith = 90 - solar.altitude;
-    const airMass = isAboveHorizon ? 1 / (Math.cos(radians(zenith)) + 0.50572 * Math.pow(96.07995 - zenith, -1.6364)) : null;
-    const crudeTransmission = airMass ? Math.exp(-0.15 * airMass) : null;
     const sunX = 450 + Math.sin(radians(solar.azimuth)) * 340;
     const sunY = 356 - clamp(solar.altitude, -10, 78) * 3.35;
 
     altitudeOutput.textContent = `${solar.altitude.toFixed(1)}°`;
     azimuthOutput.textContent = `${solar.azimuth.toFixed(1)}°`;
-    airmassOutput.textContent = airMass ? `${airMass.toFixed(2)}×` : 'below horizon';
-    beamOutput.textContent = crudeTransmission ? `${Math.round(crudeTransmission * 100)}% relative` : 'no direct beam';
     sunState.textContent = isAboveHorizon ? 'Above flat horizon' : 'Below flat horizon';
     sunState.classList.toggle('sun-is-down', !isAboveHorizon);
     sunOrbit.setAttribute('transform', `translate(${sunX.toFixed(1)} ${sunY.toFixed(1)})`);
@@ -289,22 +235,12 @@ import SiteHeader from '../../components/SiteHeader.astro';
     const rise = sunriseAzimuth(selected, latitude, longitude);
     ridgeCaption.textContent = rise === null
       ? 'No sunrise could be calculated for this date and location. The ridge layers remain a visual seasonal model, not a surveyed terrain obstruction calculation.'
-      : `On a flat horizon, sunrise is approximately at ${rise.toFixed(1)}° azimuth (clockwise from north). The three ridges cross-fade with the selected season to show the changing window—illustrative only, not a surveyed terrain obstruction calculation.`;
+      : `On a flat horizon, sunrise is approximately at ${rise.toFixed(1)}° from true north. The layered ridge changes with the date; we will calibrate it to your actual Los Altos Hills view once we have the photo.`;
   };
 
   if (calculator && dateInput && timeInput) {
     setNow();
     calculator.addEventListener('input', update);
-    document.querySelectorAll<HTMLButtonElement>('.season-chip').forEach((button) => {
-      button.addEventListener('click', () => {
-        const supplied = button.dataset.date;
-        if (!supplied || !dateInput) return;
-        const suppliedDate = new Date(`${supplied}T12:00:00`);
-        const currentYear = new Date().getFullYear();
-        dateInput.value = `${currentYear}-${pad(suppliedDate.getMonth() + 1)}-${pad(suppliedDate.getDate())}`;
-        update();
-      });
-    });
     useNowButton?.addEventListener('click', () => { setNow(); update(); });
     update();
   }
@@ -312,14 +248,13 @@ import SiteHeader from '../../components/SiteHeader.astro';
 
 <style>
   .sun-page { background: rgb(8 11 29 / 0.43); }
-  .sun-warning { background: linear-gradient(120deg, rgb(120 53 15 / 0.46), rgb(88 28 135 / 0.24)); }
+  .sun-note { border: 1px solid rgb(254 243 199 / 0.22); background: rgb(120 53 15 / 0.24); }
   .sun-control { display: grid; gap: 0.45rem; color: rgb(226 232 240); font-size: 0.8rem; font-weight: 700; }
   .sun-control input { width: 100%; border: 1px solid rgb(255 255 255 / 0.18); border-radius: 0.85rem; background: rgb(2 6 23 / 0.48); color: white; padding: 0.72rem 0.85rem; font: inherit; font-weight: 500; color-scheme: dark; }
-  .sun-control input:focus, .sun-button:focus-visible, .season-chip:focus-visible { outline: 2px solid #fef3c7; outline-offset: 3px; }
-  .sun-button, .season-chip { border: 1px solid rgb(254 243 199 / 0.28); color: #fff7df; background: rgb(254 243 199 / 0.1); transition: background-color 160ms ease, transform 160ms ease; }
+  .sun-control input:focus, .sun-button:focus-visible { outline: 2px solid #fef3c7; outline-offset: 3px; }
+  .sun-button { border: 1px solid rgb(254 243 199 / 0.28); color: #fff7df; background: rgb(254 243 199 / 0.1); transition: background-color 160ms ease, transform 160ms ease; }
   .sun-button { border-radius: 0.85rem; padding: 0.72rem 0.85rem; font-size: 0.82rem; font-weight: 700; }
-  .season-chip { border-radius: 9999px; padding: 0.43rem 0.78rem; font-size: 0.72rem; font-weight: 700; }
-  .sun-button:hover, .season-chip:hover { background: rgb(254 243 199 / 0.18); transform: translateY(-1px); }
+  .sun-button:hover { background: rgb(254 243 199 / 0.18); transform: translateY(-1px); }
   .solar-stage { background: rgb(4 6 19 / 0.56); }
   .solar-visual svg { display: block; width: 100%; height: auto; overflow: visible; }
   .ridge-layer { transition: opacity 500ms ease; }
@@ -332,5 +267,5 @@ import SiteHeader from '../../components/SiteHeader.astro';
   .south-bay-panorama { display: block; width: 100%; min-height: 13rem; object-fit: cover; object-position: center 47%; filter: saturate(0.68) brightness(0.62) hue-rotate(9deg); }
   .sun-is-down { border-color: rgb(196 181 253 / 0.35); background: rgb(91 33 182 / 0.16); color: #ddd6fe; }
   @media (min-width: 640px) { .south-bay-panorama { min-height: 18rem; } }
-  @media (prefers-reduced-motion: reduce) { .sun-button, .season-chip, .ridge-layer, #sun-orbit, #sun-ray { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .sun-button, .ridge-layer, #sun-orbit, #sun-ray { transition: none; } }
 </style>
