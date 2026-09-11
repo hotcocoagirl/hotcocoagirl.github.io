@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title?: string;
@@ -20,14 +21,16 @@ const {
     <meta name="description" content={description} />
     <link rel="icon" type="image/jpeg" href="/profile.jpg" />
     <link rel="apple-touch-icon" href="/profile.jpg" />
+    <link rel="preload" as="video" href="/milky-way-pingpong.mp4" type="video/mp4" fetchpriority="high" />
     <link rel="preload" as="image" href="/crystal-springs-foreground.png" fetchpriority="high" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet" />
     <title>{title}</title>
+    <ClientRouter />
   </head>
   <body>
-    <div class="night-scene" aria-hidden="true">
+    <div class="night-scene" transition:persist="night-scene" aria-hidden="true">
       <video
         class="night-sky-video"
         muted
@@ -40,7 +43,7 @@ const {
       </video>
       <div class="crystal-springs-foreground"></div>
     </div>
-    <div class="cosmic-glow" aria-hidden="true"></div>
+    <div class="cosmic-glow" transition:persist="cosmic-glow" aria-hidden="true"></div>
     <div class="relative z-10"><slot /></div>
     <p class="sky-credit">
       <a href="https://www.pexels.com/video/stunning-milky-way-time-lapse-in-4k-29434738/" target="_blank" rel="noreferrer">Sky: Luz Calor Som / Pexels</a>
@@ -49,7 +52,8 @@ const {
     </p>
     <script is:inline>
       const sky = document.querySelector('.night-sky-video');
-      if (sky instanceof HTMLVideoElement) {
+      if (sky instanceof HTMLVideoElement && sky.dataset.hcgInitialized !== 'true') {
+        sky.dataset.hcgInitialized = 'true';
         const positionKey = 'hcg-sky-position';
         const savedPosition = Number(sessionStorage.getItem(positionKey));
         let restoredPosition = false;
@@ -66,14 +70,17 @@ const {
           sky.play().catch(() => undefined);
         };
 
-        sky.addEventListener('loadedmetadata', () => {
+        const restoreAndPlay = () => {
           if (Number.isFinite(savedPosition) && savedPosition > 0) {
             sky.currentTime = Math.min(savedPosition, Math.max(0, sky.duration - 0.05));
             restoredPosition = true;
           } else {
             beginPlayback();
           }
-        });
+        };
+
+        if (sky.readyState >= HTMLMediaElement.HAVE_METADATA) restoreAndPlay();
+        else sky.addEventListener('loadedmetadata', restoreAndPlay, { once: true });
 
         sky.addEventListener('seeked', () => {
           if (restoredPosition) beginPlayback();
@@ -88,7 +95,8 @@ const {
       }
 
       const foreground = document.querySelector('.crystal-springs-foreground');
-      if (foreground instanceof HTMLElement) {
+      if (foreground instanceof HTMLElement && foreground.dataset.hcgInitialized !== 'true') {
+        foreground.dataset.hcgInitialized = 'true';
         const landscape = new Image();
         landscape.decoding = 'sync';
         landscape.src = '/crystal-springs-foreground.png';
