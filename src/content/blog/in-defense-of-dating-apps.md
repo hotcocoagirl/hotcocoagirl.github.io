@@ -5,6 +5,8 @@ description: "Dating apps expand the pool, improve filtering, and can help peopl
 tags: ["Love", "Philosophy"]
 ---
 
+![How heterosexual U.S. couples met in 1995 and 2017, showing online dating rising from 2% to 39%](/how-couples-met.png)
+
 53% of young adults have used a dating app. It’s the place where most new couples meet now. On most platforms, there are more men than women. On Tinder the gender ratio is 3:1 and on Hinge it is 2:1. This ratio doesn’t necessarily mean men are doomed to fail. I like to think of it like a video game where popular roles have longer queue times.
 
 There is nothing more magical about meeting someone in person than on an app. Most of the people you bump into in person, have been on a dating app. I’ve met people in person and it’s probably worse than the apps because I learn his age, hobbies and job later.
